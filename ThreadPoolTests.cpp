@@ -1,4 +1,5 @@
 #include "ThreadPool.h"
+#include <iostream>
 
 void Task1( )
 {
@@ -30,8 +31,6 @@ void Task4( )
 int main( )
 {
     ThreadPool th1;
-
-    th1.StartPool( );
     for (size_t i = 0; i < 50; i++)
     {
         if( i % 2 == 0)
@@ -55,21 +54,22 @@ int main( )
         else
             th1.AddTask( Task1 );
     }
-    auto start = std::chrono::high_resolution_clock::now();
+    
 
     for (size_t i = 0; i < 20; i++)
     {
         th1.AddTask( Task4 );
 
     }
+    auto start = std::chrono::high_resolution_clock::now();
+
+    th1.StartPool( );
     char k;
     std::cin >> k;
-
+    th1.EndPool( );
     auto end = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double, std::milli> elapsed = end-start;
     std::cout << "Waited " << elapsed.count() << " ms\n";
-
-    th1.EndPool( );
     
     return 0;
 }
